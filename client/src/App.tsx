@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import { RootState } from './store';
@@ -31,64 +31,68 @@ function App() {
   }, [darkMode]);
 
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          {/* Public Routes */}
-          <Route 
-            path="/login" 
-            element={!isAuthenticated ? <AuthPage /> : <Navigate to="/dashboard" replace />} 
-          />
-          <Route 
-            path="/verify-email" 
-            element={<EmailVerification />} 
-          />
+    <BrowserRouter>
 
-          {/* Protected Routes */}
-          <Route 
-            path="/dashboard" 
-            element={isAuthenticated ? <DashboardPage /> : <Navigate to="/login" replace />} 
-          />
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Public Routes */}
+            <Route
+              path="/login"
+              element={!isAuthenticated ? <AuthPage /> : <Navigate to="/dashboard" replace />}
+            />
+            <Route
+              path="/verify-email"
+              element={<EmailVerification />}
+            />
 
-          {/* Default Route */}
-          <Route 
-            path="/" 
-            element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} 
-          />
+            {/* Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={isAuthenticated ? <DashboardPage /> : <Navigate to="/login" replace />}
+            />
 
-          {/* Catch all route */}
-          <Route 
-            path="*" 
-            element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} 
-          />
-        </Routes>
+            {/* Default Route */}
+            <Route
+              path="/"
+              element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
+            />
 
-        {/* Toast Notifications */}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: darkMode ? '#374151' : '#ffffff',
-              color: darkMode ? '#ffffff' : '#000000',
-              border: darkMode ? '1px solid #4B5563' : '1px solid #E5E7EB',
-            },
-            success: {
-              iconTheme: {
-                primary: '#10B981',
-                secondary: '#ffffff',
+            {/* Catch all route */}
+            <Route
+              path="*"
+              element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
+            />
+          </Routes>
+
+          {/* Toast Notifications */}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: darkMode ? '#374151' : '#ffffff',
+                color: darkMode ? '#ffffff' : '#000000',
+                border: darkMode ? '1px solid #4B5563' : '1px solid #E5E7EB',
               },
-            },
-            error: {
-              iconTheme: {
-                primary: '#EF4444',
-                secondary: '#ffffff',
+              success: {
+                iconTheme: {
+                  primary: '#10B981',
+                  secondary: '#ffffff',
+                },
               },
-            },
-          }}
-        />
-      </div>
-    </Router>
+              error: {
+                iconTheme: {
+                  primary: '#EF4444',
+                  secondary: '#ffffff',
+                },
+              },
+            }}
+          />
+        </div>
+      </Router>
+    </BrowserRouter>
+
   );
 }
 
